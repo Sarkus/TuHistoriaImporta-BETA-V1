@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu historia importa, no la cierres – the game</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Patrick+Hand&display=swap">
+<style>
+:root{--bg:#f0a64a;--panel:#e89a3c;--ink:#1c1a18;--chalk:#ece6d8;--accent:#8a5a44;--card:#f6efe0;--tilt:22deg;--font:'Permanent Marker','Chalkboard SE','Comic Sans MS',cursive;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh;background-image:radial-gradient(rgba(255,255,255,.18) 1px,transparent 1.5px);background-size:14px 14px}
+h1{margin:6px 10px;font-size:clamp(18px,4vw,30px);text-align:center;line-height:1.1}h1 small{display:block;font-size:.5em;opacity:.7}
+.wrap{display:grid;grid-template-columns:230px 1fr;gap:12px;padding:8px 12px 20px;max-width:1100px;margin:auto}
+@media(max-width:760px){.wrap{grid-template-columns:1fr}}
+.side{background:var(--ink);color:var(--chalk);border-radius:14px;padding:10px;text-align:center}
+.side img{width:110px;background:#fff;padding:4px;border-radius:6px;image-rendering:pixelated}
+.stage{perspective:1100px;overflow:hidden;padding-bottom:6px}
+.table{transform:rotateX(var(--tilt)) scale(.92);transform-style:preserve-3d;background:radial-gradient(circle at 50% 40%,var(--panel),color-mix(in srgb,var(--panel) 70%,#000));border:4px solid var(--ink);border-radius:22px;padding:12px;box-shadow:0 30px 40px rgba(0,0,0,.35);min-height:440px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.row{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;min-height:116px;transform-style:preserve-3d}
+.c{width:72px;height:101px;transform:translateZ(18px);transition:.2s;user-select:none;filter:drop-shadow(3px 6px 0 rgba(0,0,0,.3))}
+.c svg{width:100%;height:100%;display:block}
+.mine .c{cursor:pointer}.mine .c:hover{transform:translateZ(50px) translateY(-14px) rotateY(10deg) rotateZ(-3deg)}
+.play{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;min-height:110px}
+.pair{display:flex;flex-direction:column;gap:2px;align-items:center}
+.msg{text-align:center;background:var(--ink);color:var(--chalk);border-radius:10px;padding:6px 10px;font-size:15px}
+.btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;min-height:38px}
+button{font-family:inherit;font-size:15px;background:var(--ink);color:var(--chalk);border:2px solid var(--chalk);border-radius:10px;padding:7px 12px;cursor:pointer}
+button:hover{background:var(--accent)}
+.ov{position:fixed;inset:0;background:rgba(20,15,10,.75);display:grid;place-items:center;z-index:5;padding:16px}
+.box{background:var(--bg);border:4px solid var(--ink);border-radius:18px;padding:18px;max-width:430px;text-align:center;font-size:17px;max-height:92vh;overflow:auto}
+.box h2{margin:.2em 0}.box .btns{margin-top:10px}.box img{width:150px;background:#fff;padding:5px;border-radius:6px;image-rendering:pixelated}
+details{background:var(--ink);color:var(--chalk);border-radius:12px;margin-top:10px;padding:8px;font-size:14px}
+details label{display:inline-flex;align-items:center;gap:4px;margin:4px 8px 4px 0}
+input[type=color]{width:34px;height:26px;border:0;padding:0;background:none}
+.tag{font-size:12px;opacity:.8}
+.side svg{width:100%;height:auto}
+header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;flex-wrap:wrap;max-width:1100px;margin:auto}
+header h1{flex:1;min-width:200px}.logo{background:#fff;border-radius:10px;padding:3px 8px;height:52px}
+.grp{background:var(--ink);color:var(--chalk);border-radius:10px;padding:8px 12px;font-size:14px}
+select{font-family:inherit;background:var(--chalk);border:2px solid var(--ink);border-radius:8px;padding:4px;max-width:100%}
+.box input{width:100%;font-size:13px;padding:6px;margin:6px 0}
+.mc{width:46px;height:64px;margin:0 auto 2px}.mc svg{width:100%;height:100%}
+.atun{margin:12px 0;background:#2b2825;border:2px solid var(--chalk);border-radius:12px;padding:8px}.atun>svg{width:84px;display:block;margin:auto}
+.bub{background:var(--chalk);color:var(--ink);border-radius:12px;padding:8px;font-family:'Patrick Hand','Comic Sans MS',cursive;font-size:15px;margin:6px 0;text-align:left;line-height:1.25}
+.atun .btns{flex-direction:column}.atun button{font-size:13px}
+.box p{margin:.4em 0}.box ul,.box ol{margin:.3em 0;padding-left:20px;font-size:15px}
+</style></head><body>
+<header><img class="logo" alt="Universidad Nacional de Moreno" src="data:image/png;base64,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"><h1>TU HISTORIA IMPORTA, NO LA CIERRES<small>the game · truco + gatitos</small></h1><div class="grp">Grupo Estrés Gráfico</div></header>
+<div class="wrap">
+<aside class="side"><div>🧩 Tu rompecabezas</div><div id="puz"></div><div class="tag" id="rv"></div><div style="margin:6px 0"><select id="dif" onchange="setDiff(+this.value)"><option value="0">🌱 Demostración</option><option value="1">⚖️ Nivelado</option><option value="2">🔥 Pelea contra vos mismo</option></select></div><button onclick="startInvite()">👥 Invitar a un amigo</button><div class="atun"><b>Atún, tu guía</b><svg viewBox="0 0 120 100"><ellipse cx="60" cy="92" rx="34" ry="14" fill="#8e98a6"/><path d="M26 38L30 8L50 26ZM94 38L90 8L70 26Z" fill="#8e98a6"/><path d="M32 30L33 17L43 26ZM88 30L87 17L77 26Z" fill="#e9a3b0"/><ellipse cx="60" cy="52" rx="38" ry="32" fill="#a3adba"/><path d="M52 22v9M60 20v10M68 22v9" stroke="#6d7684" stroke-width="3" stroke-linecap="round"/><ellipse cx="60" cy="68" rx="14" ry="10" fill="#e8edf2"/><path d="M56 62h8l-4 5z" fill="#e58a9a"/><path d="M60 67v3M54 71q6 5 6-1 0 6 6 1" stroke="#444" fill="none" stroke-width="1.5"/><path d="M44 67h-18M44 71l-16 5M76 67h18M76 71l16 5" stroke="#444" stroke-width="1.3"/><circle cx="43" cy="51" r="4.5" fill="#1c1a18"/><circle cx="77" cy="51" r="4.5" fill="#1c1a18"/><circle cx="44.5" cy="49.5" r="1.5" fill="#fff"/><circle cx="78.5" cy="49.5" r="1.5" fill="#fff"/><circle cx="43" cy="50" r="12" fill="#fff" fill-opacity=".45" stroke="#1c1a18" stroke-width="3"/><circle cx="77" cy="50" r="12" fill="#fff" fill-opacity=".45" stroke="#1c1a18" stroke-width="3"/><path d="M55 50h10" stroke="#1c1a18" stroke-width="3"/></svg><div class="bub" id="tip"></div><div class="btns"><button onclick="HELP='how';render()">📖 ¿Cómo se juega?</button><button onclick="HELP='rank';render()">🃏 Jerarquía de cartas</button><button onclick="moreTip()">💡 Otro consejo</button></div></div><br><img id="qrs" alt="QR de ayuda"><div class="tag">Escaneá el QR para ver los canales de ayuda</div></aside>
+<main><div class="stage"><div class="table">
+<div class="row" id="opp"></div><div class="play" id="play"></div>
+<div class="msg" id="msg">Conectando…</div><div class="btns" id="btns"></div>
+<div class="row mine" id="me"></div></div></div>
+<details><summary>🎨 Editar estética</summary>
+<div id="ed"></div></details>
+<div class="tag" id="net" style="margin-top:8px"></div></main></div>
+<div id="ovh"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const BASE="https://claude.ai/artifact/67296CaFbVvJZSMa6dgc9U";
+const QR="data:image/png;base64,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";
+const $=s=>document.getElementById(s);
+const SUIT={E:'🎧',B:'🎮',O:'🪙',C:'🧋'},CAT={1:'🐱',2:'😺',3:'😸',4:'😹',5:'😻',6:'😼',7:'🙀',10:'😽',11:'😾',12:'😿'};
+const WORDS=['TU','HISTORIA','IMPORTA','NO','LA','CIERRES'],TN=['','','Truco','Retruco','Vale cuatro'];
+const KIND=['🧊 Romper el hielo','🤝 Bancar','🔎 Mito y Posta'];
+const CARDS=[
+['¿Qué hacés para cortar con el estrés del día?','¿Cuándo fue la última vez que preguntaste "¿cómo estás?" y esperaste la respuesta de verdad?','¿Qué canción o serie te levanta cuando venís bajoneado?','Contá algo que te hizo reír esta semana.'],
+['Un amigo te deja en visto hace días y lo notás raro. ¿Qué le escribís?','¿Cómo acompañás a alguien que la está pasando mal sin llenarlo de consejos?','Alguien se pone a llorar al lado tuyo. ¿Qué hacés y qué evitás decir?','¿Quién podría bancarte a vos si un día no podés más? ¿Y a quién bancás vos?'],
+['MITO: "Hablar de suicidio da ideas."\nPOSTA: Preguntar con respeto y escuchar protege y alivia.','MITO: "Quien lo dice solo busca atención."\nPOSTA: Toda señal merece ser tomada en serio y acompañada.','MITO: "La terapia es para gente loca."\nPOSTA: Es cuidar la salud, como ir al médico.','MITO: "Hay que aguantársela solo."\nPOSTA: Pedir ayuda es de valientes y se puede salir adelante.']];
+
+let IC={},HELP=null;
+const SN={E:'espada',B:'basto',O:'oro',C:'copa'},SC={E:'#2c5fb3',B:'#2f8a3c',O:'#a87400',C:'#b3262e'};
+const ROBE={E:'#3b6fd1',B:'#3f9a4a',O:'#e0a21b',C:'#c8323c'},FUR={E:['#9aa3b2','#6d7684'],B:['#e8a85c','#b86f2a'],O:['#f3e2bd','#c9a86a'],C:['#4a4a58','#25252e']};
+const PIP={O:`<circle r="10" fill="#f2c230" stroke="#7a4a00" stroke-width="1.5"/><circle r="6" fill="#f8dc72" stroke="#a8740a"/><circle r="2" fill="#a8740a"/>`,
+C:`<path d="M-9-10H9Q9 3 0 6Q-9 3-9-10Z" fill="#e8b22a" stroke="#7a4a00" stroke-width="1.5"/><circle cy="-3" r="2.6" fill="#c8323c"/><path d="M-1.5 6h3v6h-3zM-7 12h14v3h-14z" fill="#e8b22a" stroke="#7a4a00" stroke-width="1.2"/>`,
+E:`<path d="M0-16L4-6V8H-4V-6Z" fill="#6fb4ee" stroke="#1d4f80" stroke-width="1.3"/><path d="M-9 8h18v3.5h-18z" fill="#e8b22a" stroke="#7a4a00" stroke-width="1.2"/><path d="M-1.6 11.5h3.2v7h-3.2z" fill="#7a4a22"/><circle cy="20" r="2.4" fill="#e8b22a" stroke="#7a4a00"/>`,
+B:`<rect x="-5" y="-16" width="10" height="32" rx="5" fill="#3f9a4a" stroke="#1f5a28" stroke-width="1.5"/><circle cx="-1" cy="-7" r="2" fill="#2a7a35"/><circle cx="1.5" cy="4" r="2" fill="#2a7a35"/><path d="M5-2l6-4M-5 8l-6-3" stroke="#c8523c" stroke-width="2.5" stroke-linecap="round"/>`};
+const LAY={1:[[50,70,2.4]],2:[[50,36,1.3],[50,104,1.3]],3:[[50,30,1.1],[50,70,1.1],[50,110,1.1]],4:[[30,38,1.1],[70,38,1.1],[30,102,1.1],[70,102,1.1]],5:[[30,36,1],[70,36,1],[50,70,1],[30,104,1],[70,104,1]],6:[[30,32,1],[70,32,1],[30,70,1],[70,70,1],[30,108,1],[70,108,1]],7:[[30,30,.9],[70,30,.9],[50,52,.9],[30,80,.9],[70,80,.9],[30,112,.9],[70,112,.9]]};
+function fig(c){const f=FUR[c.s],R=ROBE[c.s],n=c.n,K='#2a1d12',h=n==11?112:124;let s=`<rect x="12" y="24" width="76" height="104" rx="5" fill="${R}" fill-opacity=".12" stroke="${SC[c.s]}" stroke-opacity=".5"/>`;
+if(n==11)s+=`<ellipse cx="46" cy="112" rx="30" ry="14" fill="#8a5a34" stroke="${K}" stroke-width="1.5"/><path d="M66 106L82 84L92 90L88 112Z" fill="#8a5a34" stroke="${K}" stroke-width="1.5"/>`+[26,38,56,66].map(x=>`<rect x="${x}" y="118" width="5" height="12" fill="#6e4524" stroke="${K}"/>`).join('');
+s+=`<path d="M28 ${h}L35 76Q50 68 65 76L72 ${h}Z" fill="${R}" stroke="${K}" stroke-width="1.8"/><rect x="45" y="72" width="10" height="${h-74}" fill="#f4e6c0" stroke="${K}"/><path d="M33 88L20 104M67 88L80 78" stroke="${R}" stroke-width="8" stroke-linecap="round"/><g transform="translate(82 74) scale(.5)">${PIP[c.s]}</g>`;
+s+=`<path d="M35 46L36 24L48 36ZM65 46L64 24L52 36Z" fill="${f[0]}" stroke="${K}" stroke-width="1.8" stroke-linejoin="round"/><path d="M39 40L39 30L45 36ZM61 40L61 30L55 36Z" fill="#e9a3b0"/><circle cx="50" cy="52" r="17" fill="${f[0]}" stroke="${K}" stroke-width="1.8"/><path d="M45 38v6M50 36v7M55 38v6" stroke="${f[1]}" stroke-width="2" stroke-linecap="round"/><ellipse cx="43" cy="52" rx="3" ry="3.6" fill="#fff" stroke="${K}"/><ellipse cx="57" cy="52" rx="3" ry="3.6" fill="#fff" stroke="${K}"/><circle cx="43.5" cy="52.5" r="1.8" fill="${K}"/><circle cx="57.5" cy="52.5" r="1.8" fill="${K}"/><path d="M47.5 58h5l-2.5 3z" fill="#e58a9a"/><path d="M50 61v2M46 64q4 3 4-1 0 4 4 1" stroke="${K}" fill="none" stroke-width="1.2"/><path d="M40 60h-9M40 63l-8 3M60 60h9M60 63l8 3" stroke="${K}"/>`;
+if(n==12)s+=`<path d="M36 36L36 22L43 29L50 18L57 29L64 22L64 36Z" fill="#f2c230" stroke="#7a4a00" stroke-width="1.5" stroke-linejoin="round"/>`;
+if(n==11)s+=`<path d="M35 40Q50 22 65 40Z" fill="#9aa0aa" stroke="${K}" stroke-width="1.5"/><path d="M62 32Q74 20 72 38" stroke="#c8323c" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+if(n==10)s+=`<path d="M34 41Q50 24 66 41Z" fill="${R}" stroke="${K}" stroke-width="1.5"/><path d="M60 34Q72 24 74 14" stroke="#e0a21b" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+return s}
+function cimg(c){const k=c.n+c.s;if(IC[k])return IC[k];const col=SC[c.s],bg=getComputedStyle(document.documentElement).getPropertyValue('--card').trim()||'#f6efe0',t=`font-family="Georgia,serif" font-weight="bold" font-size="15" fill="${col}"`;
+let b=`<rect x="1.5" y="1.5" width="97" height="137" rx="9" fill="${bg}" stroke="#2a1d12" stroke-width="2.5"/><rect x="5" y="5" width="90" height="130" rx="6" fill="none" stroke="${col}" stroke-opacity=".35"/>`;
+b+=c.n>=10?fig(c):LAY[c.n].map(([x,y,s])=>`<g transform="translate(${x} ${y}) scale(${s})">${PIP[c.s]}</g>`).join('');
+b+=`<text x="9" y="21" ${t}>${c.n}</text><text x="91" y="130" text-anchor="end" ${t}>${c.n}</text>`;
+return IC[k]=`<svg viewBox="0 0 100 140">${b}</svg>`}
+const cback=()=>IC.b||(IC.b=`<svg viewBox="0 0 100 140"><defs><pattern id="bk" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="10" fill="#2a1d12" opacity=".35"/></pattern></defs><rect x="1.5" y="1.5" width="97" height="137" rx="9" fill="#2a1d12"/><rect x="6" y="6" width="88" height="128" rx="6" fill="#8a5a44"/><rect x="6" y="6" width="88" height="128" rx="6" fill="url(#bk)"/><path d="M32 56L33 38L45 49ZM68 56L67 38L55 49Z" fill="#f1dfb8" stroke="#2a1d12" stroke-width="2" stroke-linejoin="round"/><circle cx="50" cy="70" r="22" fill="#f1dfb8" stroke="#2a1d12" stroke-width="2"/><circle cx="42" cy="68" r="3" fill="#2a1d12"/><circle cx="58" cy="68" r="3" fill="#2a1d12"/><path d="M47 76h6l-3 4z" fill="#e58a9a"/></svg>`);
+const cardH=c=>`<div class="c">${cimg(c)}</div>`,backH=()=>`<div class="c">${cback()}</div>`;
+const PW=['TU','HISTORIA','IMPORTA','NO','LA','CIERRES'],PR=[-2,1.5,1,-1.5,-1,2];
+function puz(n){return `<svg viewBox="0 0 300 310"><defs><pattern id="h" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(40)"><rect width="6" height="6" fill="#222"/><path d="M0 1H6M0 4H6" stroke="#8a8a8a" stroke-width="1.3" opacity=".75"/></pattern><filter id="w"><feTurbulence baseFrequency=".04" numOctaves="2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3"/></filter></defs>`+PW.map((w,i)=>{const x=10+(i%2)*145,y=10+(i/2|0)*100,on=i<n;
+return `<g transform="rotate(${PR[i]} ${x+67} ${y+45})"><rect x="${x}" y="${y}" width="135" height="90" rx="10" fill="${on?'url(#h)':'none'}" stroke="${on?'#ece6d8':'#6b6b6b'}" stroke-width="${on?2.5:2}" ${on?'':'stroke-dasharray="6 5"'} filter="url(#w)"/>${on?`<text x="${x+67}" y="${y+54}" text-anchor="middle" font-size="${w.length>6?22:26}" fill="#ece6d8" font-family="var(--font)">${w}</text>`:''}</g>`}).join('')+'</svg>'}
+const NM=SN,cn=c=>c.n+' de '+NM[c.s];
+const RK=[[1,'E','Ancho de espada'],[1,'B','Ancho de basto'],[7,'E','7 de espada'],[7,'O','7 de oro'],[3,'E','Todos los 3'],[2,'E','Todos los 2'],[1,'O','1 de oro y de copa'],[12,'E','Todos los 12'],[11,'E','Todos los 11'],[10,'E','Todos los 10'],[7,'C','7 de copa y de basto'],[6,'E','Todos los 6'],[5,'E','Todos los 5'],[4,'E','Todos los 4']];
+const HT={how:`<h2>📖 Cómo se juega</h2><ol><li>Cada ronda es una mano de truco: se reparten 3 cartas a cada jugador.</li><li>Si <b>ganás la ronda</b>, te llevás 1 de las 6 piezas del rompecabezas.</li><li>Si <b>perdés</b>, elegís una carta temática para charlar: <b>Romper el hielo</b> (preguntas simples), <b>Bancar</b> (cómo apoyar a un amigo) o <b>Mito y Posta</b> (falsas creencias sobre la salud mental y la realidad).</li><li>Gana quien primero completa las 6 piezas y arma el mensaje: «Tu historia importa, no la cierres».</li><li>Podés jugar contra el Gatobot o invitar a un amigo con un link o un QR. Yo te voy dando consejos en cada jugada 😺</li></ol>`,
+truco:`<h2>🗣️ Truco y envido</h2><ul><li><b>Bazas:</b> cada ronda tiene hasta 3 bazas. En cada una se tira una carta y gana la más fuerte. Quien gana 2 bazas gana la ronda.</li><li><b>Parda:</b> si empatan una baza, decide quien ganó la primera. Si empatan todas, gana el mano (quien empezó la ronda).</li><li><b>Truco:</b> apostás a que tu mano es mejor. El rival responde «Quiero», «No quiero» (te llevás la ronda) o sube a <b>Retruco</b> y <b>Vale cuatro</b>.</li><li><b>Envido:</b> solo antes de tirar tu primera carta. Gana quien tenga más tantos: dos cartas del mismo palo suman 20 más sus valores (los 10, 11 y 12 valen 0); si no, vale la carta más alta. En esta versión es un desafío aparte y no da piezas.</li></ul>`};
+function helpBox(){const tabs=[['how','📖 Cómo se juega'],['truco','🗣️ Truco y envido'],['rank','🃏 Cartas']].map(([k,l])=>`<button onclick="HELP='${k}';render()" ${HELP==k?'style="background:var(--accent)"':''}>${l}</button>`).join('');
+const body=HELP=='rank'?`<h2>🃏 Jerarquía</h2><p>De la más fuerte a la más débil:</p><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">${RK.map(([n,s,l],i)=>`<div style="width:68px;font-size:11px;text-align:center"><div class="mc">${cimg({n,s})}</div>${i+1}. ${l}</div>`).join('')}</div>`:HT[HELP];
+return `<div class="box" style="text-align:left;max-width:500px"><div class="btns">${tabs}</div>${body}<div class="btns"><button onclick="HELP=null;render()">Entendido, Atún 😺</button></div></div>`}
+const TIPS=['Las cartas más fuertes son el ancho de espada y el ancho de basto: guardalas para el momento justo.','Si ganás la primera baza, jugá tranquilo la segunda: con ganar una más, la ronda es tuya.','Cantar truco con cartas flojas es un farol: es parte del juego, pero el rival puede aceptar.','Perder una ronda no es perder el juego: una carta temática puede ser una linda charla.','Con dos cartas del mismo palo tenés envido: 20 más el valor de ambas.'];let ti=0;
+function moreTip(){$('tip').textContent='💡 '+TIPS[ti++%TIPS.length]}
+function advice(v){const o=1-v;if(!S.h)return 'Hola, soy Atún 😺 Elegí la dificultad y arrancamos. Si tenés dudas, tocá «¿Cómo se juega?».';if(seat()<0)return 'Estás mirando la partida. ¡Prestá atención y aprendé!';
+if(S.phase=='pick')return S.loser==v?'Perdiste la ronda, ¡no pasa nada! Elegí una carta temática y charlen un rato.':'Ganaste la ronda 🎉 Ahora tu rival elige una carta para conversar.';
+if(S.phase=='card')return 'Leé la carta en voz alta y charlen un ratito antes de seguir. Escuchar también es jugar.';
+if(S.phase=='end')return S.win==v?'¡Armaste el rompecabezas! Escaneá el QR de ayuda: tu historia importa.':'Esta vez lo armó tu rival. Escaneá el QR de ayuda: tu historia importa.';
+const P=S.pend,h=S.h[v],st=Math.max(...h.map(POW),0)+(S.bz.includes(v)?3:0),e=env(S.o[v]);
+if(P&&P.from!=v){if(P.t=='envido')return `Tenés ${e} de envido. `+(e>=27?'Es un gran número: aceptá con «Quiero».':e<=22?'Es bajo: conviene decir «No quiero».':'Está parejo: arriesgá si te animás.');
+return st>=12?'Tenés cartas muy fuertes: aceptá y hasta podés subir la apuesta.':st>=8?'Tu mano es decente: «Quiero» es una buena opción.':'Tu mano es floja: puede convenir «No quiero» y cortar acá.'}
+if(P)return 'Esperando la respuesta de '+name(o)+'…';
+if(S.turn!=v)return 'Es el turno de '+name(o)+'. Mientras tanto, mirá qué cartas va jugando.';
+if(S.pl[o].length>S.pl[v].length){const t=POW(S.pl[o][S.pl[o].length-1]),w=h.filter(c=>POW(c)>t).sort((a,b)=>POW(a)-POW(b))[0];return w?'Podés ganarle con tu '+cn(w)+': es la más baja que le gana.':'Ninguna de tus cartas le gana: tirá la más baja y guardá las fuertes.'}
+if(!S.ed&&!S.bz.length&&!S.pl[v].length&&S.lvl==1)return `Antes de tirar: tenés ${e} de envido. `+(e>=27?'¡Podés cantar «Envido»!':'No parece para cantarlo.');
+return st>=12?'Tenés cartas de peso: podés cantar «Truco» o guardar la fuerte para la próxima baza.':'Jugá una carta media y guardá la mejor para después.'}
+const POW=c=>({'1E':14,'1B':13,'7E':12,'7O':11})[c.n+c.s]||({3:10,2:9,1:8,12:7,11:6,10:5,7:4,6:3,5:2,4:1})[c.n];
+const val=c=>c.n>=10?0:c.n;
+function env(h){let m=0;for(const a of h){m=Math.max(m,val(a));for(const b of h)if(a!==b&&a.s===b.s)m=Math.max(m,20+val(a)+val(b))}return m}
+let S={pcs:[0,0],mano:1,guest:null,mode:'bot'},room=null,isHost=true,myId=Math.random().toString(36).slice(2,8),bt;
+const seat=()=>isHost?0:(S.guest===myId?1:-1);
+const name=p=>S.guest?'Jugador '+(p+1):(p?'Gatobot 🤖':'Vos');
+function deal(){const d=[];for(const s of 'EBOC')for(const n of [1,2,3,4,5,6,7,10,11,12])d.push({n,s});d.sort(()=>Math.random()-.5);
+Object.assign(S,{h:[d.slice(0,3),d.slice(3,6)],pl:[[],[]],bz:[],mano:1-S.mano,lvl:1,lr:-1,pend:null,ed:false,phase:'play',card:null,msg:'¡Nueva ronda!'});
+S.o=[[...S.h[0]],[...S.h[1]]];S.turn=S.mano}
+function endHand(r,m){S.pcs[r]++;S.msg=m+' '+name(r)+' se lleva una pieza 🧩';S.pend=null;if(S.pcs[r]>=6){S.phase='end';S.win=r}else{S.phase='pick';S.loser=1-r}}
+function apply(p,a,i){const o=1-p,P=S.pend;if(S.phase=='end'){if(a=='again'&&p==0){S.pcs=[0,0];deal()}return}
+if(S.phase=='pick'){if(a=='pick'&&p==S.loser){S.card=CARDS[i][Math.random()*4|0];S.ck=i;S.phase='card'}}
+else if(S.phase=='card'){if(a=='next')deal()}
+else if(P){if(P.from==p)return;
+ if(a=='yes'||a=='up'){if(P.t=='truco'){S.lvl=P.to;S.lr=P.from;S.pend=a=='up'&&P.to<4?{t:'truco',from:p,to:P.to+1}:null;S.msg=name(p)+': '+(S.pend?'¡'+TN[S.pend.to]+'!':'¡Quiero!')}
+  else{const a0=env(S.o[0]),a1=env(S.o[1]),w=a0>a1?0:a1>a0?1:S.mano;S.ed=true;S.pend=null;S.msg='Envido: '+a0+' vs '+a1+' → gana '+name(w)}
+  if(!S.pend)S.turn=P.from}
+ else if(a=='no'){if(P.t=='truco')endHand(P.from,name(p)+': no quiero.');else{S.ed=true;S.pend=null;S.turn=P.from;S.msg=name(p)+': no quiero el envido'}}}
+else if(p==S.turn){
+ if(a=='play'){const c=S.h[p][i];if(!c)return;S.h[p].splice(i,1);S.pl[p].push(c);
+  if(S.pl[o].length<S.pl[p].length){S.turn=o;return}
+  const b=S.bz.length,x=POW(S.pl[0][b]),y=POW(S.pl[1][b]),w=x>y?0:y>x?1:'t';S.bz.push(w);
+  const n=S.bz.length,w0=S.bz.filter(k=>k===0).length,w1=S.bz.filter(k=>k===1).length;let r=-1;
+  if(w0>=2)r=0;else if(w1>=2)r=1;else if(n==2&&w0+w1==1)r=w0?0:1;else if(n==3)r=w0>w1?0:w1>w0?1:(S.bz[0]!=='t'?S.bz[0]:S.mano);
+  if(r>=0)endHand(r,'Fin de la ronda.');else{S.turn=w==='t'?S.mano:w;S.msg=w==='t'?'Parda (empate)':name(w)+' gana la mano'}}
+ else if(a=='truco'&&S.lvl<4&&S.lr!=p){S.pend={t:'truco',from:p,to:S.lvl+1};S.msg=name(p)+': ¡'+TN[S.lvl+1]+'!'}
+ else if(a=='envido'&&!S.ed&&!S.bz.length&&!S.pl[p].length&&S.lvl==1){S.pend={t:'envido',from:p};S.msg=name(p)+': ¡Envido!'}}}
+const bstr=()=>Math.max(...S.h[1].map(POW),0)+(S.bz.includes(1)?3:0);
+function botTick(){if(S.guest||S.diff==null)return;clearTimeout(bt);bt=setTimeout(()=>{const P=S.pend,h=S.h[1],D=S.diff,go=(a,i)=>{apply(1,a,i);sync()};
+if(S.phase=='pick'&&S.loser==1)return go('pick',Math.random()*3|0);if(S.phase!='play')return;
+if(P&&P.from==0){const st=bstr();return P.t=='envido'?go(env(S.o[1])>=[31,25,22][D]?'yes':'no'):go(st>=[11,9,8][D]||Math.random()<[0,.2,.1][D]?(st>=[99,12,11][D]&&P.to<4&&Math.random()<.45?'up':'yes'):'no')}
+if(P||S.turn!=1)return;
+if(!S.ed&&!S.bz.length&&!S.pl[1].length&&S.lvl==1&&env(S.o[1])>=[99,27,24][D]&&Math.random()<.6)return go('envido');
+if(S.lvl<4&&S.lr!=1&&((bstr()>=[99,12,10][D]&&Math.random()<.4)||Math.random()<[0,0,.08][D]))return go('truco');
+let i;const low=()=>h.reduce((a,b,k)=>POW(b)<POW(h[a])?k:a,0);
+if(Math.random()<[.6,.12,0][D])i=Math.random()*h.length|0;
+else if(S.pl[0].length>S.pl[1].length){const t=POW(S.pl[0][S.pl[0].length-1]),w=h.map((c,k)=>k).filter(k=>POW(h[k])>t);i=w.length?w.reduce((a,b)=>POW(h[a])<POW(h[b])?a:b):low()}else i=h.reduce((a,b,k)=>POW(b)>POW(h[a])?k:a,0);
+go('play',i)},900)}
+function setDiff(d){const f=S.diff==null;S.diff=d;if(f){S.pcs=[0,0];deal()}sync()}
+function sync(){render();if(room&&isHost)room.emit('state',S);botTick()}
+function act(a,i){const s=seat();if(s<0)return;if(isHost){apply(0,a,i);sync()}else room.emit('act',{id:myId,a,i})}
+function render(){const v=Math.max(seat(),0),o=1-v,me=seat()>=0;
+if(S.guest)INV=null;$('puz').innerHTML=puz(S.pcs[v]);$('dif').value=S.diff==null?1:S.diff;$('tip').textContent=advice(v);
+$('rv').textContent=name(o)+': '+S.pcs[o]+'/6 piezas';
+$('opp').innerHTML=S.h?S.h[o].map(backH).join(''):'';
+$('play').innerHTML=S.pl?[0,1,2].filter(b=>S.pl[v][b]||S.pl[o][b]).map(b=>`<div class="pair">${S.pl[o][b]?cardH(S.pl[o][b]):''}${S.pl[v][b]?cardH(S.pl[v][b]):''}</div>`).join(''):'';
+$('me').innerHTML=S.h?S.h[v].map((c,i)=>`<div onclick="act('play',${i})">${cardH(c)}</div>`).join(''):'';
+$('msg').textContent=S.msg||'';
+let b='',P=S.pend;
+if(me&&S.phase=='play'){if(P&&P.from!=v){b=`<button onclick="act('yes')">✅ Quiero</button><button onclick="act('no')">❌ No quiero</button>`+(P.t=='truco'&&P.to<4?`<button onclick="act('up')">⬆️ ${TN[P.to+1]}</button>`:'')}
+else if(P)b='Esperando respuesta…';
+else if(S.turn==v){if(S.lvl<4&&S.lr!=v)b+=`<button onclick="act('truco')">🗣️ ${TN[S.lvl+1]}</button>`;if(!S.ed&&!S.bz.length&&!S.pl[v].length&&S.lvl==1)b+=`<button onclick="act('envido')">🃏 Envido</button>`;b+=' Tu turno'}else b='Turno de '+name(o)+'…'}
+$('btns').innerHTML=b;
+let ov='';
+if(S.phase=='pick')ov=S.loser==v&&me?`<div class="box"><h2>Perdiste la ronda 😿</h2>Elegí una carta para charlar:<div class="btns">${KIND.map((k,i)=>`<button onclick="act('pick',${i})">${k}</button>`).join('')}</div></div>`:`<div class="box">${name(S.loser)} está eligiendo una carta temática…</div>`;
+if(S.phase=='card')ov=`<div class="box"><h2>${KIND[S.ck]}</h2><p style="white-space:pre-line">${S.card}</p><div class="btns"><button onclick="act('next')">Seguir jugando ➜</button></div></div>`;
+if(S.phase=='end')ov=`<div class="box"><h2>🎉 TU HISTORIA IMPORTA, NO LA CIERRES</h2>${name(S.win)} completó el rompecabezas.<br><br><img src="${QR}" alt="QR"><p style="font-size:15px">Escaneá el QR para ver los canales de ayuda. Si estás pasando un mal momento, hablá con alguien de confianza o llamá a la Línea 135 (CABA y GBA).</p>${v==0?'<div class="btns"><button onclick="act(\'again\')">🔁 Jugar de nuevo</button></div>':''}</div>`;
+if(ready&&S.diff==null&&isHost)ov=`<div class="box"><h2>Elegí la dificultad</h2><div class="btns" style="flex-direction:column"><button onclick="setDiff(0)">🌱 Demostración (fácil)</button><button onclick="setDiff(1)">⚖️ Nivelado (normal)</button><button onclick="setDiff(2)">🔥 Pelea contra vos mismo (difícil)</button><button onclick="startInvite()">👥 Jugar con un amigo</button></div></div>`;
+if(HELP)ov=helpBox();
+if(INV)ov=invBox();
+$('ovh').innerHTML=ov?`<div class="ov">${ov}</div>`:'';
+$('net').textContent=S.guest?(me?'🌐 Multijugador · sos el Jugador '+(seat()+1):'👀 Mirando la partida'):(room?'🌐 Mesa privada lista: esperando a tu amigo':'Modo solo vs Gatobot')}
+let INV=null,ready=false,hc=false,got=false,RM=null;
+async function join(code,force){RM=RM||await claude.use('room').catch(()=>null);if(!RM){ready=true;render();return false}
+if(room){try{room.leave()}catch(e){}}
+hc=false;got=false;room=await RM.join('m-'+code);
+room.on('state',m=>{if(m.isMe||hc)return;got=true;isHost=false;S=m.data;render()});
+room.on('act',m=>{if(!isHost||m.isMe)return;const d=m.data;if(d.id===S.guest){apply(1,d.a,d.i);sync()}});
+room.on('hello',m=>{if(!isHost||m.isMe)return;const id=m.data.id;if(!S.guest){S.guest=id;if(S.diff==null)S.diff=1;S.pcs=[0,0];deal()}sync()});
+if(force){hc=true;isHost=true;S={pcs:[0,0],mano:1,guest:null,diff:S.diff};if(S.diff!=null)deal();ready=true;sync();return true}
+for(let k=0;k<3&&!got;k++){room.emit('hello',{id:myId}).catch(()=>{});await new Promise(r=>setTimeout(r,900))}
+if(!got){hc=true;isHost=true}ready=true;sync();return true}
+async function startInvite(){const c=Math.random().toString(36).slice(2,7);if(await join(c,true)){INV=BASE+'#'+c}else S.msg='Invitar solo funciona dentro de Claude.';render()}
+function invBox(){let q='';try{const x=qrcode(0,'M');x.addData(INV);x.make();q=x.createDataURL(5,2)}catch(e){}
+return `<div class="box"><h2>👥 Invitá a un amigo</h2>Pasale este link o que escanee el QR para sentarse en tu mesa:<input id="invu" readonly value="${INV}" onclick="this.select()">${q?`<img src="${q}" alt="QR de invitación">`:''}<div class="btns"><button onclick="copyInv()">📋 Copiar link</button>${navigator.share?'<button onclick="shareInv()">📤 Compartir</button>':''}<button onclick="INV=null;render()">Cerrar</button></div></div>`}
+function copyInv(){try{navigator.clipboard.writeText(INV).catch(()=>{})}catch(e){}$('invu').select()}
+function shareInv(){navigator.share({title:'Tu historia importa, no la cierres – the game',url:INV}).catch(()=>{})}
+render();const hh=location.hash.slice(1).toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,20);
+if(hh)join(hh,false).catch(()=>{ready=true;render()});else{ready=true;render()}
+// ---- editor de estética
+const VARS=[['--bg','Fondo'],['--panel','Mesa'],['--ink','Tinta'],['--chalk','Tiza'],['--accent','Acento'],['--card','Cartas']];
+const PRE={Afiche:['#f0a64a','#e89a3c','#1c1a18','#ece6d8','#8a5a44','#f6efe0'],Noche:['#1b1f3b','#2a3060','#0c0e1f','#e7e9ff','#7a5cff','#d9dcff'],Pastel:['#ffd6e7','#ffc2dc','#4a2c4f','#fff5fa','#c77dff','#ffffff']};
+const FONTS=[["Marcador","'Permanent Marker','Chalkboard SE','Comic Sans MS',cursive"],["Manuscrita","'Patrick Hand','Comic Sans MS',cursive"],["Clásica","Georgia,serif"],["Moderna","system-ui,sans-serif"]];
+const root=document.documentElement.style;
+function setV(k,v){root.setProperty(k,v);save();IC={};render()}
+function save(){try{localStorage.setItem('thi',JSON.stringify(Object.fromEntries([...VARS.map(x=>x[0]),'--tilt','--font'].map(k=>[k,root.getPropertyValue(k)]))))}catch(e){}}
+try{const s=JSON.parse(localStorage.getItem('thi')||'{}');for(const k in s)if(s[k])root.setProperty(k,s[k])}catch(e){}
+function preset(n){IC={};PRE[n].forEach((c,i)=>root.setProperty(VARS[i][0],c));save();drawEd();render()}
+function drawEd(){const g=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+$('ed').innerHTML=VARS.map(([k,l])=>`<label>${l}<input type="color" value="${g(k).length==7?g(k):'#888888'}" oninput="setV('${k}',this.value)"></label>`).join('')+
+`<br><label>Inclinación 3D<input type="range" min="0" max="45" value="${parseInt(g('--tilt'))||22}" oninput="setV('--tilt',this.value+'deg')"></label><label>Letra<select onchange="setV('--font',this.value)">${FONTS.map(f=>`<option value="${f[1]}">${f[0]}</option>`).join('')}</select></label><br>`+Object.keys(PRE).map(n=>`<button onclick="preset('${n}')">${n}</button>`).join(' ')+` <button onclick="try{localStorage.removeItem('thi')}catch(e){};location.reload()">Restaurar</button>`}
+drawEd();$('qrs').src=QR;
+</script></body></html>
