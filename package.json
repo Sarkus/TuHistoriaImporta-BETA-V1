@@ -1,0 +1,9 @@
+{
+  "name": "tu-historia-importa-the-game",
+  "version": "1.0.0",
+  "description": "Truco con gatitos para la campaña «Tu historia importa, no la cierres» (UNM – Grupo Estrés Gráfico)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "license": "UNLICENSED"
+}
