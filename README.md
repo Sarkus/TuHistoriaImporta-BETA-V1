@@ -1,6 +1,10 @@
 # Tu historia importa, no la cierres – the game
-Truco con gatitos para la campaña de salud mental de la UNM (Grupo Estrés Gráfico).
+Truco con gatitos y Modo UNO para la campaña de salud mental de la UNM (Grupo Estrés Gráfico).
 Esta carpeta funciona **fuera de Claude** y trae su propio multijugador.
+
+## Modos de juego
+- **Truco con gatitos:** 1 contra 1 (contra el Gatobot o un amigo).
+- **Modo UNO:** salas de 2, 3, 4 u 8 personas. Se juega solo con Gatobots o se crea una sala online: el link y el QR de la sala se comparten, y al empezar los lugares libres los juegan Gatobots. UNO es una marca de Mattel: para una difusión pública conviene darle un nombre propio al modo.
 
 ## Qué hay adentro
 - `index.html`: el juego completo (cartas, música, efectos, Atún).
@@ -32,5 +36,6 @@ Opciones simples: Render, Railway, Fly.io o un VPS.
 ## Notas
 - Las mesas viven en la memoria del servidor: si se reinicia, las partidas en curso se pierden.
 - Las cartas de cada jugador viajan dentro de los datos de la partida, así que alguien con conocimientos técnicos podría espiarlas. Para jugar entre amigos y en actividades alcanza.
+- Colores: desde «Editar estética» se cambian también los colores de las manos y de su trazo.
 - Música: «Shop» de The Legend of Zelda: Ocarina of Time es un tema de Nintendo. Para una difusión pública conviene reemplazarla por una música con licencia libre (es una cadena de texto `music` dentro de `index.html`).
 - Los números de ayuda y el QR de la pantalla final deben coincidir con los canales oficiales de la campaña.
