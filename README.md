@@ -7,7 +7,9 @@ Esta carpeta funciona **fuera de Claude** y trae su propio multijugador.
 - **Modo UNO:** salas de 2, 3, 4 u 8 personas. Se juega solo con Gatobots o se crea una sala online: el link y el QR de la sala se comparten, y al empezar los lugares libres los juegan Gatobots. UNO es una marca de Mattel: para una difusión pública conviene darle un nombre propio al modo.
 
 - **Emotes:** el botón 😺 de abajo a la derecha abre una rueda con 5 emotes que ven los demás jugadores.
-- **Apilado en UNO:** +2 sobre +2 y +4 sobre +4.
+- **Apilado en UNO:** todas las cartas de + se apilan entre sí (+2 sobre +4, +4 sobre +2, etc.).
+- **Folleto online:** el panel de arriba a la izquierda muestra las 8 secciones del folleto como diapositivas.
+- **Resultados:** al ganar una ronda hay confeti y la imagen «GANAMOS»; al perder, confeti rojo e imagen «PERDIMOS».
 
 ## Qué hay adentro
 - `index.html`: el juego completo (cartas, música, efectos, Atún).
@@ -39,6 +41,5 @@ Opciones simples: Render, Railway, Fly.io o un VPS.
 ## Notas
 - Las mesas viven en la memoria del servidor: si se reinicia, las partidas en curso se pierden.
 - Las cartas de cada jugador viajan dentro de los datos de la partida, así que alguien con conocimientos técnicos podría espiarlas. Para jugar entre amigos y en actividades alcanza.
-- Colores: desde «Editar estética» se cambian también los colores de las manos y de su trazo.
 - Música: «First Boot (Intro)» de Tomodachi Life: Living the Dream es un tema de Nintendo. Para una difusión pública conviene reemplazarla por una música con licencia libre (es una cadena de texto `music` dentro de `index.html`).
 - Los números de ayuda y el QR de la pantalla final deben coincidir con los canales oficiales de la campaña.
