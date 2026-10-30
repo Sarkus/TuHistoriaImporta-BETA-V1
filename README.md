@@ -6,6 +6,9 @@ Esta carpeta funciona **fuera de Claude** y trae su propio multijugador.
 - **Truco con gatitos:** 1 contra 1 (contra el Gatobot o un amigo).
 - **Modo UNO:** salas de 2, 3, 4 u 8 personas. Se juega solo con Gatobots o se crea una sala online: el link y el QR de la sala se comparten, y al empezar los lugares libres los juegan Gatobots. UNO es una marca de Mattel: para una difusión pública conviene darle un nombre propio al modo.
 
+- **Emotes:** el botón 😺 de abajo a la derecha abre una rueda con 5 emotes que ven los demás jugadores.
+- **Apilado en UNO:** +2 sobre +2 y +4 sobre +4.
+
 ## Qué hay adentro
 - `index.html`: el juego completo (cartas, música, efectos, Atún).
 - `server.js`: servidor sin dependencias. Sirve el juego, conecta a los jugadores (WebSocket) y, opcionalmente, conecta a Atún con la IA.
@@ -37,5 +40,5 @@ Opciones simples: Render, Railway, Fly.io o un VPS.
 - Las mesas viven en la memoria del servidor: si se reinicia, las partidas en curso se pierden.
 - Las cartas de cada jugador viajan dentro de los datos de la partida, así que alguien con conocimientos técnicos podría espiarlas. Para jugar entre amigos y en actividades alcanza.
 - Colores: desde «Editar estética» se cambian también los colores de las manos y de su trazo.
-- Música: «Shop» de The Legend of Zelda: Ocarina of Time es un tema de Nintendo. Para una difusión pública conviene reemplazarla por una música con licencia libre (es una cadena de texto `music` dentro de `index.html`).
+- Música: «First Boot (Intro)» de Tomodachi Life: Living the Dream es un tema de Nintendo. Para una difusión pública conviene reemplazarla por una música con licencia libre (es una cadena de texto `music` dentro de `index.html`).
 - Los números de ayuda y el QR de la pantalla final deben coincidir con los canales oficiales de la campaña.
